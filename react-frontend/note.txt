@@ -1,0 +1,6 @@
+Load the prog
+go to the react-frontend directory
+in the terminal - npm start
+
+If browser is closed
+http://localhost:3000
