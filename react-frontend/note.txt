@@ -4,3 +4,6 @@ in the terminal - npm start
 
 If browser is closed
 http://localhost:3000
+
+remove cached history
+git rm -r --cached react-frontend/node_modules/
