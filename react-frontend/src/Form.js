@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
 
-function Form() {
+function Form(props) {
   const [person, setPerson] = useState(
     {
         name: "",
         job: "",
     }
   );
-
 
   return (
     <form>
@@ -25,6 +24,7 @@ function Form() {
         id="job"
         value={person.job}
         onChange={handleChange} />
+        <input type="button" value="Submit" onClick={submitForm} />
     </form>
     );
 
@@ -43,7 +43,16 @@ function Form() {
              {name: value, job: person['job']}   
            );
     }
-}
 
+    /**
+     * Calls the prop handleSubmit and passes the Form state as the person parameter
+     * (nested function uses person defined above)
+     * then resets state to inital state to clear the form after submission.
+     */
+    function submitForm() {
+        props.handleSubmit(person);
+        setPerson({name: '', job: ''});
+    } 
+}
 
 export default Form;

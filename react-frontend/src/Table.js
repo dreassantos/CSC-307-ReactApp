@@ -26,6 +26,7 @@ function TableBody(props) {
     );
    }
   );
+  
   return (
     <tbody>
       {rows}
