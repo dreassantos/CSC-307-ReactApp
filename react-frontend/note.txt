@@ -1,9 +1,18 @@
-Load the prog
-go to the react-frontend directory
-in the terminal - npm start
+
 
 If browser is closed
 http://localhost:3000
 
-remove cached history
+--- terminal Notes ---
+->remove cached history
 git rm -r --cached react-frontend/node_modules/
+
+->Load the prog with npm
+dir - will show current directory
+cd [directory] - Use to go to the react-frontend directory 
+npm start - Use to start the program
+
+--- Things to Ask ---
+1. Why do untracked files show up if they are listed in .gitignore?
+2. How do you remove them to prevent them from showing in the git status.
+3. Does git all . add the untracked files. 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 import Table from './Table';
 import Form from './Form';
 
@@ -12,10 +12,14 @@ function MyApp() {
     setCharacters(updated);
   }
 
+  function updatedList(person){
+    setCharacters([...characters, person]);
+  }
+
   return (
     <div className="container">
       <Table characterData={characters} removeCharacter={removeOneCharacter} />
-      <Form/>
+      <Form />
     </div>
   )
 }
