@@ -26,7 +26,8 @@ app.listen(port, () => {
 	console.log(`Example app listening at http://localhost:${port}`); 
 });
 
-//Use get to define a rout called '/users' which will return the entire list of users. 
+//Use get to define a rout called '/users' which will return the entire list of users 
+//or if a name is given, returns items in the list with matching the name. 
 app.get('/users', (req, res) => {
 	const name = req.query.name;
 	if (name != undefined){
@@ -41,6 +42,26 @@ app.get('/users', (req, res) => {
 
 const findUserByName = (name) => { 
 	return users['users_list'].filter( (user) => user['name'] === name); 
+}
+
+//Use get to define a rout called '/users:id' which will return any users that match the id
+app.get('/users/:id', (req, res) => {
+	const id = req.params['id']; //or req.params.id
+	let result = findUserById(id);
+	if (result === undefined || result.length == 0)
+		//syntax to return a specific http status code with message.
+		 res.status(404).send('Resource not found.');
+	else {
+		 result = {users_list: result};
+		 res.send(result);
+	}
+});
+
+function findUserById(id) {
+	//JS array find() can be used to filter
+	return users['users_list'].find( (user) => user['id'] === id); 
+	//Or this way works too...
+	//return users['users_list'].filter( (user) => user['id'] === id);
 }
 
 
