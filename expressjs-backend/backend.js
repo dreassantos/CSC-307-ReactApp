@@ -64,6 +64,19 @@ function findUserById(id) {
 	//return users['users_list'].filter( (user) => user['id'] === id);
 }
 
+//Use app.post to take data that comes in and add it to the list. 
+//Assum we are getting perfect data since we didnt validate it.
+app.post('/users', (req, res) => {
+	const userToAdd = req.body;
+	addUser(userToAdd);
+	//default response code 
+	res.status(200).end();
+});
+
+function addUser(user){
+	users['users_list'].push(user);
+}
+
 
 //JSON Object of users
 const users = { 
