@@ -90,46 +90,53 @@ function findUserById(id) {
 //Assum we are getting perfect data since we didnt validate it.
 app.post('/users', (req, res) => {
 	const userToAdd = req.body;
-	addUser(userToAdd);
-	//default response code 
-	res.status(200).end();
+	//updated response code with user that has an id. 
+	res.status(201).send(addUser(userToAdd));
 });
 
 function addUser(user){
-	users['users_list'].push(user);
+	//generate an id for the new user
+	const newid = ""+generateNewId();
+	//const newUser = {...user, id: id}; //updates the id property.
+	const newUser = {id: newid, name: user.name, job: user.job}; //updates the id property.  
+	users['users_list'].push(newUser);
+	return newUser;
+}
+
+const generateNewId = () => {
+	return Math.floor(Math.random() * 500001);
 }
 
 
 //Use app.delete to remove a particular user with the matching id from the list. 
+//Will delete all users with the same id!!!
 app.delete('/users/:id', (req, res) => {
-	const id = req.params.id;
-	let result = findUserById(id);
+	const idToDel = req.params.id;
+	let result = findUserById(idToDel);
 	if (result === undefined || result.length == 0)
 		//syntax to return a specific http status code with message.
 		//cant delete user. none found.
 		 res.status(404).send('Resource not found.');
 	else {
 		//http status code for a successful delete 204
-		 deleteUserById(id);
+		 deleteUserById(idToDel);
 		 res.status(204).send('deleted');
 	}
 });
 
 function deleteUserById(id) {
-	users = users.users_list.filter((user)=> user.id !== id);
-	/*
-	//TODO: This only deletes one user. Changed users to let.
 	//JS Array method findindex to get the index of the user with the id.
-	const userWithIdIndex = users.users_list.findIndex((user) => user.id === id);
+	let userWithIdIndex = users.users_list.findIndex((user) => user.id === id);
 	//remove it from the arr of users if it is there.
-	if(userWithIdIndex > -1){
-		users.users_list.splice(userWithIdIndex, 1);
-	}
-	*/
+	do {
+		if(userWithIdIndex > -1){
+			users.users_list.splice(userWithIdIndex, 1);
+		}
+	} while ((userWithIdIndex = users.users_list.findIndex((user) => user.id === id)) != -1);
 }
 
 //JSON Object of users
-let users = { 
+const users = { 
    users_list :
    [
       { 
@@ -156,6 +163,6 @@ let users = {
          id: 'zap555', 
          name: 'Dennis',
          job: 'Bartender',
-      }
+      },
    ]
 }
