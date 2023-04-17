@@ -30,7 +30,13 @@ app.listen(port, () => {
 //or if a name is given, returns items in the list with matching the name. 
 app.get('/users', (req, res) => {
 	const name = req.query.name;
-	if (name != undefined){
+	const job = req.query.job;
+	if(job != undefined && name != undefined){
+		let result = findUserbyNameAndJob(name, job);
+		result = {users_list: result};
+		res.send(result);
+	}
+	else if (name != undefined){
 		 let result = findUserByName(name);
 		 result = {users_list: result};
 		 res.send(result);
@@ -40,11 +46,16 @@ app.get('/users', (req, res) => {
 	}
 });
 
+const findUserbyNameAndJob = (name, job) => {
+	return users['users_list'].filter( (user) => user['name'] === name & user['job'] === job); 
+}
+
 const findUserByName = (name) => { 
 	return users['users_list'].filter( (user) => user['name'] === name); 
 }
 
 //Use get to define a rout called '/users:id' which will return any users that match the id
+//Extending so that it can get users by name and job.
 app.get('/users/:id', (req, res) => {
 	const id = req.params['id']; //or req.params.id
 	let result = findUserById(id);
@@ -94,17 +105,20 @@ app.delete('/users/:id', (req, res) => {
 });
 
 function deleteUserById(id) {
-	//TODO: This only deletes one user.
+	users = users.users_list.filter((user)=> user.id !== id);
+	/*
+	//TODO: This only deletes one user. Changed users to let.
 	//JS Array method findindex to get the index of the user with the id.
 	const userWithIdIndex = users.users_list.findIndex((user) => user.id === id);
 	//remove it from the arr of users if it is there.
 	if(userWithIdIndex > -1){
 		users.users_list.splice(userWithIdIndex, 1);
 	}
+	*/
 }
 
 //JSON Object of users
-const users = { 
+let users = { 
    users_list :
    [
       { 
