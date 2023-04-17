@@ -13,11 +13,14 @@ function MyApp() {
     setCharacters(updated);
   }
 
-  //Submit data and update the parent state
-  //Update the state by taking the existing characters and adding the new person parameter
-  function updateList(person) {
-    setCharacters([...characters, person]);
-  }
+  //post call happens first (sends JSON object, person to backend)
+  //Then check status and update info in table. 
+  function updateList(person) { 
+    makePostCall(person).then( result => {
+    if (result != undefined && result.status === 200)
+       setCharacters([...characters, person] );
+    });
+ }
 
   async function fetchAll(){
     try {
@@ -30,6 +33,19 @@ function MyApp() {
        return false;         
     }
  }
+
+ //axios.post(url, data) -> sends person (JSON object) to the backend.
+ //errors if backend sends error status code. 
+ async function makePostCall(person){
+  try {
+     const response = await axios.post('http://localhost:8000/users', person);
+     return response;
+  }
+  catch (error) {
+     console.log(error);
+     return false;
+  }
+}
  
  //React.useEffect()
   useEffect(() => {
