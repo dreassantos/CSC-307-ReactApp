@@ -1,14 +1,25 @@
 //Express module
 const express = require('express'); 	
 
+//Cors module
+const cors = require('cors');
+
 //an instance of the express module
-const app = express(); 						
+const app = express(); 	
+
 
 //The port we will listen to incoming http requests. 
 const port = 8000; 							
 
+//tell app to use cors module to enable cors requests
+//This will allow our backend to respond to calls coming from a different origin.
+app.use(cors());
+
 //tell express module to process all incoming data in JSON format
 app.use(express.json()); 						
+
+
+
 
 /*
 	set up api endpoint to accept http get requests. 
