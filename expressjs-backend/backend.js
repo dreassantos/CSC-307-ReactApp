@@ -78,6 +78,31 @@ function addUser(user){
 }
 
 
+//Use app.delete to remove a particular user with the matching id from the list. 
+app.delete('/users/:id', (req, res) => {
+	const id = req.params.id;
+	let result = findUserById(id);
+	if (result === undefined || result.length == 0)
+		//syntax to return a specific http status code with message.
+		//cant delete user. none found.
+		 res.status(404).send('Resource not found.');
+	else {
+		//http status code for a successful delete 204
+		 deleteUserById(id);
+		 res.status(204).send('deleted');
+	}
+});
+
+function deleteUserById(id) {
+	//TODO: This only deletes one user.
+	//JS Array method findindex to get the index of the user with the id.
+	const userWithIdIndex = users.users_list.findIndex((user) => user.id === id);
+	//remove it from the arr of users if it is there.
+	if(userWithIdIndex > -1){
+		users.users_list.splice(userWithIdIndex, 1);
+	}
+}
+
 //JSON Object of users
 const users = { 
    users_list :
