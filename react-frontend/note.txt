@@ -12,6 +12,24 @@ dir - will show current directory
 cd [directory] - Use to go to the react-frontend directory 
 npm start - Use to start the program
 
+->Installing nodemon
+nodenom is used to run backend without restarting it each time.
+"save-dev argument because this is a project dependency only needed in the development environment.
+This is not a necessary dependency at runtime."
+run this command in the root folder of the project. 
+npm install --save-dev nodemon 
+old way 
+npm backend.js //everytime you want it to run.
+new way
+npx nodemon backend.js // only once
+If you add this to the script section of the package json file you can run it with npm run dev.
+"dev": "nodemon backend.js",
+"start": "node backend.js" 
+
+//Run this first to debug
+export DEBUG='express:router'
+
+
 --- Things to Ask ---
 1. Why do untracked files show up if they are listed in .gitignore?
 2. How do you remove them to prevent them from showing in the git status.
